@@ -338,7 +338,10 @@
   ];
   const lista=document.getElementById('listaCupones');
   let usados=[];
-  try{usados=JSON.parse(localStorage.getItem('cuponesUsados')||'[]');}catch(_){}
+  try{
+    if(new URLSearchParams(location.search).has('reiniciar')) localStorage.removeItem('cuponesUsados');
+    usados=JSON.parse(localStorage.getItem('cuponesUsados')||'[]');
+  }catch(_){}
   cupones.forEach(([ico,tit,desc],i)=>{
     const c=document.createElement('div');
     c.className='cupon'+(usados.includes(i)?' usado':'');
