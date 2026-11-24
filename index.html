@@ -65,6 +65,64 @@
   .boton:active{transform:scale(.95)}
   .sorpresa{display:none;text-align:center;font-family:'Dancing Script',cursive;font-size:1.7rem;
     color:var(--vino);margin-top:18px}
+  /* --- Menú --- */
+  .menu{margin-top:30px;border-top:2px dashed #f4b6c5;padding-top:22px;display:grid;gap:10px}
+  .menu-titulo{text-align:center;font-family:'Dancing Script',cursive;font-size:1.6rem;color:var(--vino);margin-bottom:4px!important}
+  .opcion{display:flex;align-items:center;gap:12px;width:100%;border:2px solid #f4b6c5;background:#fff;
+    border-radius:14px;padding:13px 16px;font-size:1.4rem;cursor:pointer;text-align:left;
+    transition:transform .15s,background .2s}
+  .opcion span{font-family:'Lora',serif;font-size:1rem;color:var(--tinta)}
+  .opcion:hover{background:#ffe9ee}
+  .opcion:active{transform:scale(.97)}
+
+  /* --- Ventanas --- */
+  .velo{position:fixed;inset:0;background:rgba(74,42,51,.45);backdrop-filter:blur(3px);
+    opacity:0;pointer-events:none;transition:opacity .3s;z-index:10}
+  .velo.on{opacity:1;pointer-events:auto}
+  .ventana{position:fixed;left:50%;top:50%;width:min(92vw,520px);max-height:86vh;overflow-y:auto;
+    background:var(--papel);border-radius:18px;padding:30px 22px 24px;z-index:11;
+    box-shadow:0 20px 50px rgba(0,0,0,.3);opacity:0;pointer-events:none;
+    transform:translate(-50%,-45%) scale(.95);transition:opacity .3s,transform .3s}
+  .ventana.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+  .ventana h2{font-family:'Dancing Script',cursive;font-size:2rem;color:var(--vino);text-align:center;margin-bottom:16px}
+  .cerrar{position:absolute;top:10px;right:12px;border:none;background:#ffe9ee;color:var(--vino);
+    width:34px;height:34px;border-radius:50%;font-size:1rem;cursor:pointer}
+
+  .galeria{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .galeria img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;cursor:pointer;
+    box-shadow:0 4px 10px rgba(0,0,0,.12);transition:transform .2s}
+  .galeria img:nth-child(odd){transform:rotate(-1.5deg)}
+  .galeria img:nth-child(even){transform:rotate(1.5deg)}
+  .vacio,.nota,.cuenta{text-align:center;color:#9a6b77;font-style:italic}
+  .foto-grande{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.85);display:none;
+    align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
+  .foto-grande img{max-width:100%;max-height:100%;border-radius:10px}
+
+  .razon{min-height:110px;display:grid;place-items:center;text-align:center;font-size:1.15rem;
+    line-height:1.6;background:#ffe9ee;border-radius:14px;padding:18px;transition:opacity .25s}
+  .cuenta{margin-top:10px;font-size:.9rem}
+
+  .mini-cartas{display:grid;gap:10px}
+  details{background:#fff;border:2px solid #f4b6c5;border-radius:12px;padding:12px 14px}
+  summary{cursor:pointer;font-weight:bold;color:var(--vino);list-style:none}
+  summary::-webkit-details-marker{display:none}
+  details[open]{background:#ffe9ee}
+  details p{margin-top:10px;line-height:1.6}
+
+  .cupones{display:grid;gap:10px;margin-top:12px}
+  .cupon{border:2px dashed var(--rosa-fuerte);border-radius:12px;padding:14px;background:#fff;
+    cursor:pointer;position:relative;transition:opacity .3s}
+  .cupon b{color:var(--vino)}
+  .cupon.usado{opacity:.55}
+  .cupon.usado::after{content:"¡CANJEADO!";position:absolute;right:10px;top:50%;
+    transform:translateY(-50%) rotate(-12deg);color:var(--rosa-fuerte);font-weight:bold;
+    border:2px solid var(--rosa-fuerte);padding:2px 8px;border-radius:6px;font-size:.85rem}
+
+  .preg{text-align:center;font-size:1.15rem;line-height:1.6;margin-bottom:18px}
+  .resp{display:flex;justify-content:center;gap:14px;position:relative;min-height:60px}
+  .resp .boton{margin:0}
+  .gris{background:#bfa8ae!important;box-shadow:none!important;position:relative;transition:transform .25s}
+
   @media (max-width:400px){
     .carta{padding:36px 22px 30px}
     h1{font-size:2.2rem}
@@ -102,9 +160,64 @@
 
   <p class="firma">Te amo ♥<br>Andy</p>
 
-  <button class="boton" id="boton">Una cosa más… 💗</button>
-  <p class="sorpresa" id="sorpresa">¡Feliz primer mes, mi amor! 🥰</p>
+  <div class="menu">
+    <p class="menu-titulo">Hay más cositas para ti 👇</p>
+    <button class="opcion" data-abrir="fotos">📸<span>Nuestras fotos</span></button>
+    <button class="opcion" data-abrir="razones">💝<span>Razones por las que te quiero</span></button>
+    <button class="opcion" data-abrir="cartitas">📬<span>Ábrelo cuando…</span></button>
+    <button class="opcion" data-abrir="cupones">🎟️<span>Cupones de amor</span></button>
+    <button class="opcion" data-abrir="pregunta">💍<span>Una pregunta importante</span></button>
+  </div>
 </article>
+
+<!-- ===== Ventanas ===== -->
+<div class="velo" id="velo"></div>
+
+<section class="ventana" id="fotos">
+  <button class="cerrar" aria-label="Cerrar">✕</button>
+  <h2>Nuestras fotos 📸</h2>
+  <div class="galeria" id="galeria"></div>
+  <p class="vacio" id="vacio">Aquí van a ir nuestras fotos… pronto 🥹</p>
+</section>
+
+<section class="ventana" id="razones">
+  <button class="cerrar" aria-label="Cerrar">✕</button>
+  <h2>Razones por las que te quiero 💝</h2>
+  <div class="razon" id="razon">Toca el botón 👇</div>
+  <p class="cuenta" id="cuenta"></p>
+  <button class="boton" id="otraRazon">Dame una razón</button>
+</section>
+
+<section class="ventana" id="cartitas">
+  <button class="cerrar" aria-label="Cerrar">✕</button>
+  <h2>Ábrelo cuando… 📬</h2>
+  <div class="mini-cartas">
+    <details><summary>…estés triste 😢</summary><p>Oye, está bien no estar bien. No tienes que cargar con todo tú: aquí estoy, siempre. Háblame, aunque sea para decirme que no quieres hablar. Te abrazo fuerte desde donde esté.</p></details>
+    <details><summary>…me extrañes 🥺</summary><p>Yo también te extraño, seguro más. Cierra los ojos, imagina que te estoy abrazando y luego mándame un mensaje, que me encanta saber que piensas en mí.</p></details>
+    <details><summary>…no puedas dormir 🌙</summary><p>Respira hondo, deja el celular un ratito (después de leer esto 😅) y piensa en algo bonito que hayamos vivido. Mañana va a ser un buen día, y si no, lo arreglamos juntos.</p></details>
+    <details><summary>…tengas un mal día 😤</summary><p>Ese día no te define. Eres increíble, aunque hoy no lo sientas. Cuando acabe, búscame y te escucho todo lo que quieras quejarte. Te invito algo rico, va.</p></details>
+    <details><summary>…estemos enojados 😒</summary><p>Aunque estemos enojados, te sigo queriendo igualito. Respiremos, hablemos con calma y recordemos que estamos del mismo lado. Tú y yo contra el problema, no tú contra mí.</p></details>
+    <details><summary>…estés feliz 😄</summary><p>¡Cuéntamelo todo! Me encanta verte feliz, es de mis cosas favoritas en el mundo. Y que conste que quiero estar en todos esos momentos.</p></details>
+  </div>
+</section>
+
+<section class="ventana" id="cupones">
+  <button class="cerrar" aria-label="Cerrar">✕</button>
+  <h2>Cupones de amor 🎟️</h2>
+  <p class="nota">Toca uno para canjearlo. Válidos para siempre 😌</p>
+  <div class="cupones" id="listaCupones"></div>
+</section>
+
+<section class="ventana" id="pregunta">
+  <button class="cerrar" aria-label="Cerrar">✕</button>
+  <h2>Una pregunta importante 💍</h2>
+  <p class="preg">¿Quieres seguir siendo mi persona favorita muchos meses más?</p>
+  <div class="resp">
+    <button class="boton" id="si">Sí 💗</button>
+    <button class="boton gris" id="no">No</button>
+  </div>
+  <p class="sorpresa" id="sorpresa">¡Sabía que dirías que sí! Feliz primer mes, mi amor 🥰</p>
+</section>
 
 <script>
   // Corazones flotando
@@ -140,11 +253,122 @@
     },700);
   });
 
-  // Sorpresa final
-  document.getElementById('boton').addEventListener('click',e=>{
-    e.target.style.display='none';
+  // ===== Ventanas =====
+  const velo=document.getElementById('velo');
+  let abierta=null;
+  function abrir(id){
+    abierta=document.getElementById(id);
+    abierta.classList.add('on'); velo.classList.add('on');
+    document.body.style.overflow='hidden';
+  }
+  function cerrar(){
+    if(!abierta) return;
+    abierta.classList.remove('on'); velo.classList.remove('on');
+    document.body.style.overflow=''; abierta=null;
+  }
+  document.querySelectorAll('.opcion').forEach(b=>b.addEventListener('click',()=>abrir(b.dataset.abrir)));
+  document.querySelectorAll('.cerrar').forEach(b=>b.addEventListener('click',cerrar));
+  velo.addEventListener('click',cerrar);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){cerrar();cerrarFoto();}});
+
+  // ===== Fotos: imagen/foto1.jpg, foto2.jpg ... (también .jpeg, .png, .webp) =====
+  const galeria=document.getElementById('galeria');
+  const vacio=document.getElementById('vacio');
+  const MAX_FOTOS=30, EXTS=['jpg','jpeg','png','webp','JPG','JPEG','PNG'];
+  const visor=document.createElement('div');
+  visor.className='foto-grande';
+  visor.innerHTML='<img alt="Foto nuestra">';
+  document.body.appendChild(visor);
+  function cerrarFoto(){visor.style.display='none';}
+  visor.addEventListener('click',cerrarFoto);
+  for(let i=1;i<=MAX_FOTOS;i++){
+    const img=document.createElement('img');
+    img.alt='Foto '+i; img.style.display='none';
+    galeria.appendChild(img); // reserva el lugar para mantener el orden
+    let k=0;
+    img.onerror=()=>{ if(++k<EXTS.length) img.src=`imagen/foto${i}.${EXTS[k]}`; else img.remove(); };
+    img.onload=()=>{ img.style.display=''; vacio.style.display='none'; };
+    img.addEventListener('click',()=>{visor.querySelector('img').src=img.src;visor.style.display='flex';});
+    img.src=`imagen/foto${i}.${EXTS[0]}`;
+  }
+
+  // ===== Razones =====
+  const razones=[
+    'Por cómo me miras cuando crees que no me doy cuenta.',
+    'Porque contigo puedo ser yo, sin filtros.',
+    'Por tu risa, que me alegra el día entero.',
+    'Porque haces que lo sencillo se sienta especial.',
+    'Por tu paciencia conmigo (que sé que a veces necesito mucha 😅).',
+    'Porque me escuchas de verdad.',
+    'Por cómo me cuidas sin que te lo pida.',
+    'Porque cuando estoy contigo el tiempo vuela.',
+    'Porque me haces querer ser mejor persona.',
+    'Por tus mensajes que me sacan una sonrisa en medio del día.',
+    'Porque eres mi lugar seguro.',
+    'Porque contigo hasta un día aburrido se vuelve bonito.',
+    'Por cómo eres con las personas que quieres.',
+    'Porque me elegiste, y me sigues eligiendo.',
+    'Porque simplemente eres tú, y eso ya es suficiente.'
+  ];
+  let orden=[...razones.keys()].sort(()=>Math.random()-.5), pos=0;
+  const caja=document.getElementById('razon'), cuenta=document.getElementById('cuenta');
+  document.getElementById('otraRazon').addEventListener('click',e=>{
+    if(pos>=orden.length){
+      caja.textContent='Se me acabaron las de esta página… pero tengo muchísimas más guardadas para decírtelas en persona 💗';
+      cuenta.textContent=''; e.target.textContent='Volver a empezar'; pos=0;
+      orden.sort(()=>Math.random()-.5); return;
+    }
+    caja.style.opacity=0;
+    setTimeout(()=>{caja.textContent=razones[orden[pos]];caja.style.opacity=1;
+      pos++; cuenta.textContent=`Razón ${pos} de ${razones.length}`;},250);
+    e.target.textContent='Otra razón 💗';
+    lanzarCorazon();lanzarCorazon();
+  });
+
+  // ===== Cupones =====
+  const cupones=[
+    ['🫂','Un abrazo largo','de esos que no se acaban rápido'],
+    ['🍕','Una cita de comida','tú eliges el lugar, yo invito'],
+    ['🎬','Noche de película','tú escoges la peli (sin quejas de mi parte)'],
+    ['💋','Besos ilimitados','válido a cualquier hora'],
+    ['🤐','Ganar una discusión','úsalo con sabiduría 😌'],
+    ['🚶','Un paseo juntos','a donde quieras ir'],
+    ['💆','Un masaje','para cuando tengas un día pesado'],
+    ['🍦','Un antojo cumplido','lo que se te antoje, te lo consigo']
+  ];
+  const lista=document.getElementById('listaCupones');
+  let usados=[];
+  try{usados=JSON.parse(localStorage.getItem('cuponesUsados')||'[]');}catch(_){}
+  cupones.forEach(([ico,tit,desc],i)=>{
+    const c=document.createElement('div');
+    c.className='cupon'+(usados.includes(i)?' usado':'');
+    c.innerHTML=`${ico} <b>${tit}</b><br><small>${desc}</small>`;
+    c.addEventListener('click',()=>{
+      if(c.classList.contains('usado')) return;
+      c.classList.add('usado'); usados.push(i);
+      try{localStorage.setItem('cuponesUsados',JSON.stringify(usados));}catch(_){}
+      for(let j=0;j<15;j++) setTimeout(lanzarCorazon,j*50);
+    });
+    lista.appendChild(c);
+  });
+
+  // ===== Pregunta =====
+  const no=document.getElementById('no'), si=document.getElementById('si');
+  const frasesNo=['¿Neta? 🥺','Piénsalo bien…','Ese botón no sirve 😌','Inténtalo otra vez 😏','Nop 🙃'];
+  let intentos=0;
+  function escapar(e){
+    e.preventDefault();
+    const x=(Math.random()*160-80), y=(Math.random()*60-30);
+    no.style.transform=`translate(${x}px,${y}px)`;
+    no.textContent=frasesNo[intentos++%frasesNo.length];
+    si.style.transform=`scale(${Math.min(1+intentos*0.12,1.8)})`;
+  }
+  no.addEventListener('mouseenter',escapar);
+  no.addEventListener('click',escapar);
+  si.addEventListener('click',()=>{
+    document.querySelector('.resp').style.display='none';
     document.getElementById('sorpresa').style.display='block';
-    for(let i=0;i<40;i++) setTimeout(lanzarCorazon,i*40);
+    for(let i=0;i<50;i++) setTimeout(lanzarCorazon,i*40);
   });
 </script>
 </body>
