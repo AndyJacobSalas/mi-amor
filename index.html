@@ -11,11 +11,11 @@
     --papel:#fffaf3; --tinta:#4a2a33;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
+  html{min-height:100%}
   body{
     font-family:'Lora',Georgia,serif;color:var(--tinta);
-    background:radial-gradient(circle at 30% 20%,#ffe4ea 0%,#f7c6d0 45%,#e9a0b4 100%);
-    min-height:100vh;overflow-x:hidden;display:flex;align-items:center;justify-content:center;
+    background:#f7c6d0;
+    min-height:100vh;overflow-x:hidden;display:flex;flex-direction:column;align-items:center;
     padding:24px 16px;
   }
   .corazon{position:fixed;bottom:-40px;color:var(--rosa-fuerte);opacity:.55;
@@ -23,7 +23,10 @@
   @keyframes subir{to{transform:translateY(-115vh) rotate(25deg);opacity:0}}
 
   /* --- Sobre --- */
-  .escena{position:relative;z-index:1;text-align:center}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;
+    background:radial-gradient(circle at 30% 20%,#ffe4ea 0%,#f7c6d0 45%,#e9a0b4 100%)}
+  .escena{position:relative;z-index:1;text-align:center;margin:auto}
+  .contenido{display:none;width:100%;max-width:560px;margin:8px auto 40px;position:relative;z-index:1}
   .sobre{width:300px;height:200px;position:relative;margin:0 auto;cursor:pointer;
     filter:drop-shadow(0 12px 22px rgba(140,28,60,.28));transition:transform .3s}
   .sobre:hover{transform:scale(1.03)}
@@ -45,11 +48,11 @@
   @keyframes latido{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
 
   /* --- Carta --- */
-  .carta{position:relative;z-index:1;max-width:560px;width:100%;background:var(--papel);
-    border-radius:14px;padding:44px 32px 36px;
+  .carta{position:relative;z-index:1;width:100%;background:var(--papel);
+    border-radius:14px;padding:44px 32px 20px;
     box-shadow:0 20px 50px rgba(140,28,60,.25);
     background-image:repeating-linear-gradient(transparent 0 31px,#f3dfe3 31px 32px);
-    display:none;opacity:0;transform:translateY(30px);transition:opacity .9s ease,transform .9s ease}
+    opacity:0;transform:translateY(30px);transition:opacity .9s ease,transform .9s ease}
   .carta.visible{opacity:1;transform:none}
   .carta::before{content:"";position:absolute;top:0;bottom:0;left:22px;width:2px;background:#f4b6c5}
   .fecha{text-align:right;font-style:italic;font-size:.9rem;color:#9a6b77;margin-bottom:14px}
@@ -66,14 +69,27 @@
   .sorpresa{display:none;text-align:center;font-family:'Dancing Script',cursive;font-size:1.7rem;
     color:var(--vino);margin-top:18px}
   /* --- Menú --- */
-  .menu{margin-top:30px;border-top:2px dashed #f4b6c5;padding-top:22px;display:grid;gap:10px}
-  .menu-titulo{text-align:center;font-family:'Dancing Script',cursive;font-size:1.6rem;color:var(--vino);margin-bottom:4px!important}
-  .opcion{display:flex;align-items:center;gap:12px;width:100%;border:2px solid #f4b6c5;background:#fff;
-    border-radius:14px;padding:13px 16px;font-size:1.4rem;cursor:pointer;text-align:left;
-    transition:transform .15s,background .2s}
-  .opcion span{font-family:'Lora',serif;font-size:1rem;color:var(--tinta)}
-  .opcion:hover{background:#ffe9ee}
-  .opcion:active{transform:scale(.97)}
+  .menu{margin-top:22px;background:rgba(255,250,243,.92);border-radius:18px;padding:24px 18px 20px;
+    box-shadow:0 14px 36px rgba(140,28,60,.2);opacity:0;transform:translateY(30px);
+    transition:opacity .9s ease .4s,transform .9s ease .4s}
+  .menu.visible{opacity:1;transform:none}
+  .menu-titulo{text-align:center;font-family:'Dancing Script',cursive;font-size:1.9rem;color:var(--vino);margin-bottom:4px}
+  .menu-sub{text-align:center;font-style:italic;color:#9a6b77;font-size:.9rem;margin-bottom:16px}
+  .botones{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .opcion{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+    border:none;border-radius:16px;padding:18px 10px;min-height:112px;cursor:pointer;
+    background:linear-gradient(145deg,#ffe3ea,#ffc9d6);box-shadow:0 6px 14px rgba(224,90,122,.18);
+    transition:transform .15s,box-shadow .2s}
+  .opcion:nth-child(2){background:linear-gradient(145deg,#ffe9e0,#ffd0c2)}
+  .opcion:nth-child(3){background:linear-gradient(145deg,#f3e6ff,#e2ccf7)}
+  .opcion:nth-child(4){background:linear-gradient(145deg,#fff2d9,#ffe0a8)}
+  .opcion:last-child{grid-column:1/-1;flex-direction:row;min-height:auto;padding:16px;
+    background:linear-gradient(135deg,var(--rosa-fuerte),var(--vino))}
+  .opcion:last-child span{color:#fff}
+  .opcion .ico{font-size:2rem;line-height:1}
+  .opcion span{font-family:'Lora',serif;font-size:.95rem;color:var(--vino);text-align:center;line-height:1.3}
+  .opcion:active{transform:scale(.95)}
+  .pie{text-align:center;margin-top:22px;font-family:'Dancing Script',cursive;font-size:1.3rem;color:var(--vino);opacity:.8}
 
   /* --- Ventanas --- */
   .velo{position:fixed;inset:0;background:rgba(74,42,51,.45);backdrop-filter:blur(3px);
@@ -141,6 +157,7 @@
   <p class="pista">Toca el sobre, mi amor 💌</p>
 </div>
 
+<main class="contenido" id="contenido">
 <article class="carta" id="carta">
   <p class="fecha">24 de noviembre de 2026</p>
   <h1>Mi amor:</h1>
@@ -160,15 +177,20 @@
 
   <p class="firma">Te amo ♥<br>Andy</p>
 
-  <div class="menu">
-    <p class="menu-titulo">Hay más cositas para ti 👇</p>
-    <button class="opcion" data-abrir="fotos">📸<span>Nuestras fotos</span></button>
-    <button class="opcion" data-abrir="razones">💝<span>Razones por las que te quiero</span></button>
-    <button class="opcion" data-abrir="cartitas">📬<span>Ábrelo cuando…</span></button>
-    <button class="opcion" data-abrir="cupones">🎟️<span>Cupones de amor</span></button>
-    <button class="opcion" data-abrir="pregunta">💍<span>Una pregunta importante</span></button>
-  </div>
 </article>
+<section class="menu" id="menu">
+  <h2 class="menu-titulo">Hay más cositas para ti</h2>
+  <p class="menu-sub">toca una 👇</p>
+  <div class="botones">
+    <button class="opcion" data-abrir="fotos"><span class="ico">📸</span><span>Nuestras fotos</span></button>
+    <button class="opcion" data-abrir="razones"><span class="ico">💝</span><span>Razones por las que te quiero</span></button>
+    <button class="opcion" data-abrir="cartitas"><span class="ico">📬</span><span>Ábrelo cuando…</span></button>
+    <button class="opcion" data-abrir="cupones"><span class="ico">🎟️</span><span>Cupones de amor</span></button>
+    <button class="opcion" data-abrir="pregunta"><span class="ico">💍</span><span>Una pregunta importante</span></button>
+  </div>
+</section>
+<p class="pie">hecho con mucho amor, para ti ♥</p>
+</main>
 
 <!-- ===== Ventanas ===== -->
 <div class="velo" id="velo"></div>
@@ -247,8 +269,9 @@
     sobre.classList.add('abierto');
     setTimeout(()=>{
       escena.style.display='none';
-      carta.style.display='block';
-      requestAnimationFrame(()=>requestAnimationFrame(()=>carta.classList.add('visible')));
+      document.getElementById('contenido').style.display='block';
+      window.scrollTo(0,0);
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{carta.classList.add('visible');document.getElementById('menu').classList.add('visible');}));
       for(let i=0;i<25;i++) setTimeout(lanzarCorazon,i*60);
     },700);
   });
@@ -281,16 +304,20 @@
   document.body.appendChild(visor);
   function cerrarFoto(){visor.style.display='none';}
   visor.addEventListener('click',cerrarFoto);
-  for(let i=1;i<=MAX_FOTOS;i++){
-    const img=document.createElement('img');
-    img.alt='Foto '+i; img.style.display='none';
-    galeria.appendChild(img); // reserva el lugar para mantener el orden
-    let k=0;
-    img.onerror=()=>{ if(++k<EXTS.length) img.src=`imagen/foto${i}.${EXTS[k]}`; else img.remove(); };
-    img.onload=()=>{ img.style.display=''; vacio.style.display='none'; };
-    img.addEventListener('click',()=>{visor.querySelector('img').src=img.src;visor.style.display='flex';});
-    img.src=`imagen/foto${i}.${EXTS[0]}`;
+  function cargarFoto(i,k=0){
+    if(i>MAX_FOTOS) return;
+    const img=new Image();
+    img.alt='Foto '+i;
+    img.onload=()=>{
+      vacio.style.display='none';
+      img.addEventListener('click',()=>{visor.querySelector('img').src=img.src;visor.style.display='flex';});
+      galeria.appendChild(img);
+      cargarFoto(i+1);
+    };
+    img.onerror=()=>{ if(k+1<EXTS.length) cargarFoto(i,k+1); }; // si no existe la foto i, se detiene
+    img.src=`imagen/foto${i}.${EXTS[k]}`;
   }
+  cargarFoto(1);
 
   // ===== Razones =====
   const razones=[
