@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para mi amor 💌</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Lora:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --rosa:#f7c6d0; --rosa-fuerte:#e05a7a; --vino:#8c1c3c;
+    --papel:#fffaf3; --tinta:#4a2a33;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Lora',Georgia,serif;color:var(--tinta);
+    background:radial-gradient(circle at 30% 20%,#ffe4ea 0%,#f7c6d0 45%,#e9a0b4 100%);
+    min-height:100vh;overflow-x:hidden;display:flex;align-items:center;justify-content:center;
+    padding:24px 16px;
+  }
+  .corazon{position:fixed;bottom:-40px;color:var(--rosa-fuerte);opacity:.55;
+    animation:subir linear forwards;pointer-events:none;user-select:none;z-index:0}
+  @keyframes subir{to{transform:translateY(-115vh) rotate(25deg);opacity:0}}
+
+  /* --- Sobre --- */
+  .escena{position:relative;z-index:1;text-align:center}
+  .sobre{width:300px;height:200px;position:relative;margin:0 auto;cursor:pointer;
+    filter:drop-shadow(0 12px 22px rgba(140,28,60,.28));transition:transform .3s}
+  .sobre:hover{transform:scale(1.03)}
+  .sobre .cuerpo{position:absolute;inset:0;background:#f2a9bb;border-radius:6px}
+  .sobre .solapa{position:absolute;top:0;left:0;width:0;height:0;
+    border-left:150px solid transparent;border-right:150px solid transparent;
+    border-top:110px solid #e88aa2;transform-origin:top;transition:transform .6s ease;z-index:3}
+  .sobre .frente{position:absolute;bottom:0;left:0;width:0;height:0;
+    border-left:150px solid #f4b6c5;border-right:150px solid #f4b6c5;
+    border-bottom:100px solid #f0a0b5;border-top:100px solid transparent;z-index:2}
+  .sello{position:absolute;top:88px;left:50%;transform:translateX(-50%);
+    width:46px;height:46px;border-radius:50%;background:var(--vino);color:#fff;
+    display:grid;place-items:center;font-size:22px;z-index:4;
+    box-shadow:0 3px 8px rgba(0,0,0,.25);transition:opacity .3s}
+  .abierto .solapa{transform:rotateX(180deg);z-index:1}
+  .abierto .sello{opacity:0}
+  .pista{margin-top:22px;font-family:'Dancing Script',cursive;font-size:1.6rem;color:var(--vino);
+    animation:latido 1.6s ease-in-out infinite}
+  @keyframes latido{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+
+  /* --- Carta --- */
+  .carta{position:relative;z-index:1;max-width:560px;width:100%;background:var(--papel);
+    border-radius:14px;padding:44px 32px 36px;
+    box-shadow:0 20px 50px rgba(140,28,60,.25);
+    background-image:repeating-linear-gradient(transparent 0 31px,#f3dfe3 31px 32px);
+    display:none;opacity:0;transform:translateY(30px);transition:opacity .9s ease,transform .9s ease}
+  .carta.visible{opacity:1;transform:none}
+  .carta::before{content:"";position:absolute;top:0;bottom:0;left:22px;width:2px;background:#f4b6c5}
+  .fecha{text-align:right;font-style:italic;font-size:.9rem;color:#9a6b77;margin-bottom:14px}
+  h1{font-family:'Dancing Script',cursive;font-weight:700;font-size:2.6rem;color:var(--vino);margin-bottom:18px}
+  .carta p{line-height:32px;font-size:1.05rem;margin-bottom:16px}
+  .contador{margin:26px 0 10px;text-align:center;background:#ffe9ee;border-radius:12px;padding:16px}
+  .contador .num{font-family:'Dancing Script',cursive;font-size:2.4rem;color:var(--rosa-fuerte);line-height:1}
+  .contador .txt{font-size:.9rem;color:#9a6b77;margin-top:6px}
+  .firma{font-family:'Dancing Script',cursive;font-size:1.9rem;color:var(--vino);text-align:right;margin-top:18px}
+  .boton{display:block;margin:26px auto 0;border:none;background:var(--rosa-fuerte);color:#fff;
+    font-family:'Lora',serif;font-size:1rem;padding:12px 26px;border-radius:999px;cursor:pointer;
+    box-shadow:0 6px 16px rgba(224,90,122,.4);transition:transform .2s}
+  .boton:active{transform:scale(.95)}
+  .sorpresa{display:none;text-align:center;font-family:'Dancing Script',cursive;font-size:1.7rem;
+    color:var(--vino);margin-top:18px}
+  @media (max-width:400px){
+    .carta{padding:36px 22px 30px}
+    h1{font-size:2.2rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="escena" id="escena">
+  <div class="sobre" id="sobre" role="button" aria-label="Abrir la carta">
+    <div class="cuerpo"></div>
+    <div class="frente"></div>
+    <div class="solapa"></div>
+    <div class="sello">♥</div>
+  </div>
+  <p class="pista">Toca el sobre, mi amor 💌</p>
+</div>
+
+<article class="carta" id="carta">
+  <p class="fecha">24 de noviembre de 2026</p>
+  <h1>Mi amor:</h1>
+
+  <p>Hoy cumplimos nuestro primer mes juntos, y quise hacerte algo que fuera solo para ti, algo que pudieras abrir cuando quieras y saber, sin dudarlo, lo mucho que te quiero.</p>
+
+  <p>Puede parecer poco tiempo, pero este mes se ha sentido enorme. Contigo los días se sienten más bonitos, las cosas sencillas se vuelven especiales y hasta los momentos cansados se hacen más ligeros cuando sé que estás ahí.</p>
+
+  <p>Gracias por tu paciencia, por tus risas, por cómo me haces sentir en casa, y por elegirme cada día. No sé todo lo que viene, pero sí sé que quiero vivirlo contigo, paso a paso, sin prisa y con muchas ganas.</p>
+
+  <p>Este es apenas el primero de muchos meses. Prometo seguir cuidándote, escuchándote y haciéndote sonreír tanto como tú me haces sonreír a mí.</p>
+
+  <div class="contador">
+    <div class="num" id="dias">30</div>
+    <div class="txt">días queriéndote (y contando…)</div>
+  </div>
+
+  <p class="firma">Te amo ♥<br>Andy</p>
+
+  <button class="boton" id="boton">Una cosa más… 💗</button>
+  <p class="sorpresa" id="sorpresa">¡Feliz primer mes, mi amor! 🥰</p>
+</article>
+
+<script>
+  // Corazones flotando
+  function lanzarCorazon(){
+    const c=document.createElement('span');
+    c.className='corazon';
+    c.textContent=['♥','❤','💕','💗'][Math.floor(Math.random()*4)];
+    c.style.left=Math.random()*100+'vw';
+    c.style.fontSize=(14+Math.random()*22)+'px';
+    c.style.animationDuration=(6+Math.random()*6)+'s';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),12500);
+  }
+  setInterval(lanzarCorazon,650);
+
+  // Días juntos desde el 24 de octubre de 2026
+  const inicio=new Date(2026,9,24);
+  const hoy=new Date(); hoy.setHours(0,0,0,0);
+  const dias=Math.max(0,Math.round((hoy-inicio)/86400000));
+  document.getElementById('dias').textContent=dias;
+
+  // Abrir el sobre
+  const sobre=document.getElementById('sobre');
+  const escena=document.getElementById('escena');
+  const carta=document.getElementById('carta');
+  sobre.addEventListener('click',()=>{
+    sobre.classList.add('abierto');
+    setTimeout(()=>{
+      escena.style.display='none';
+      carta.style.display='block';
+      requestAnimationFrame(()=>requestAnimationFrame(()=>carta.classList.add('visible')));
+      for(let i=0;i<25;i++) setTimeout(lanzarCorazon,i*60);
+    },700);
+  });
+
+  // Sorpresa final
+  document.getElementById('boton').addEventListener('click',e=>{
+    e.target.style.display='none';
+    document.getElementById('sorpresa').style.display='block';
+    for(let i=0;i<40;i++) setTimeout(lanzarCorazon,i*40);
+  });
+</script>
+</body>
+</html>
