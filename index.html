@@ -297,27 +297,28 @@
   // ===== Fotos: imagen/foto1.jpg, foto2.jpg ... (también .jpeg, .png, .webp) =====
   const galeria=document.getElementById('galeria');
   const vacio=document.getElementById('vacio');
-  const MAX_FOTOS=30, EXTS=['jpg','jpeg','png','webp','JPG','JPEG','PNG'];
   const visor=document.createElement('div');
   visor.className='foto-grande';
   visor.innerHTML='<img alt="Foto nuestra">';
   document.body.appendChild(visor);
   function cerrarFoto(){visor.style.display='none';}
   visor.addEventListener('click',cerrarFoto);
-  function cargarFoto(i,k=0){
-    if(i>MAX_FOTOS) return;
-    const img=new Image();
-    img.alt='Foto '+i;
-    img.onload=()=>{
-      vacio.style.display='none';
-      img.addEventListener('click',()=>{visor.querySelector('img').src=img.src;visor.style.display='flex';});
-      galeria.appendChild(img);
-      cargarFoto(i+1);
-    };
-    img.onerror=()=>{ if(k+1<EXTS.length) cargarFoto(i,k+1); }; // si no existe la foto i, se detiene
-    img.src=`imagen/foto${i}.${EXTS[k]}`;
+  // Lee automáticamente todas las imágenes del repo (carpeta imagen/ y raíz), con cualquier nombre
+  const REPO='AndyJacobSalas/mi-amor';
+  const esImagen=n=>/\.(jpe?g|png|webp|gif)$/i.test(n);
+  function ponerFoto(src,alt){
+    const img=new Image(); img.alt=alt;
+    img.onload=()=>{vacio.style.display='none';};
+    img.addEventListener('click',()=>{visor.querySelector('img').src=img.src;visor.style.display='flex';});
+    img.src=src; galeria.appendChild(img);
   }
-  cargarFoto(1);
+  Promise.all(['imagen',''].map(dir=>
+    fetch(`https://api.github.com/repos/${REPO}/contents/${dir}`).then(r=>r.ok?r.json():[]).catch(()=>[])
+  )).then(listas=>{
+    const fotos=listas.flat().filter(f=>f&&f.type==='file'&&esImagen(f.name));
+    fotos.sort((a,b)=>a.path.localeCompare(b.path,undefined,{numeric:true}));
+    fotos.forEach(f=>ponerFoto(f.path.split('/').map(encodeURIComponent).join('/'),f.name));
+  });
 
   // ===== Razones =====
   const razones=[
